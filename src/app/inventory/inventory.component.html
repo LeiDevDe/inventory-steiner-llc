@@ -1,0 +1,64 @@
+<div class="mat-elevation-z8">
+  <mat-card>
+    <mat-card-actions>
+      <button type="button" mat-button color="primary" (click)="onClick()">Add New Item</button>
+    </mat-card-actions>
+
+    <mat-card-header>All Inventory</mat-card-header>
+    <mat-card-content>
+      @if( showForm){
+      <!--Inventory Form-->
+      <inventory-form (back)="hideInventoryForm()" (save)="onSave($event)"></inventory-form>
+      }@else{
+      <table mat-table class="full-width-table" matSort aria-label="Elements">
+        <!-- Id Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+          <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let row">{{row.name}}</td>
+        </ng-container>
+        <!-- Name Description -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+          <td mat-cell *matCellDef="let row">{{row.description}}</td>
+        </ng-container>
+        <!-- Quantity Colum -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+          <td mat-cell *matCellDef="let row">{{row.quantity}}</td>
+        </ng-container>
+        <!-- storagePlace Colum -->
+        <ng-container matColumnDef="storagePlace">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Storage Place</th>
+          <td mat-cell *matCellDef="let row">{{row.storagePlace}}</td>
+        </ng-container>
+        <!-- EditedDate Colum -->
+        <ng-container matColumnDef="editedDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Edited Date</th>
+          <td mat-cell *matCellDef="let row">{{row.editedDate}}</td>
+        </ng-container>
+        <!-- Actions Colum -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button (click)="onEditInventoryClick(row)">
+              Edit
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      }
+    </mat-card-content>
+    <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+    </mat-paginator>
+  </mat-card>
+
+</div>
