@@ -53,6 +53,14 @@ export class InventoryComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
+
+  onSave(inventory: Inventory) {
+    const save = lastValueFrom(this.inventoryService.save(inventory));
+    console.log("save new inventory item in the inventoryComponent", inventory);
+    console.log(save)
+    this.hideInventoryForm();
+  }
+
   onNewInventoryClick() {
     this.inventory = {
       id: null,
@@ -84,12 +92,5 @@ export class InventoryComponent implements AfterViewInit {
     }
   }
 
-
-  onSave(inventory: Inventory) {
-    const save = lastValueFrom(this.inventoryService.save(inventory));
-    console.log("save new inventory item in the inventoryComponent", inventory);
-    console.log(save)
-    this.hideInventoryForm();
-  }
 
 }

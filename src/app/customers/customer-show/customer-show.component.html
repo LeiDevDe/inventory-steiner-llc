@@ -1,6 +1,25 @@
 <p>customer-show works!</p>
 @if(customerObservable | async){
+<mat-card-content>
+    <h3>
+        <strong>
+            {{customer.firstName + ' '+customer.lastName}}
+        </strong>
+    </h3>
 
-{{customer.firstName}}
-
+    <dl>
+        <dt>Phone </dt>
+        <dd>{{customer.address?.phone}}</dd>
+    </dl>
+    <dl>
+        <dt>Street </dt>
+        <dd>{{customer.address?.street}}</dd>
+    </dl>
+</mat-card-content>
+<mat-card-actions class="container">
+    <button mat-raised-button [routerLink]="['/customers']">Back</button>
+    <div class="width-full"></div>
+    <button mat-raised-button [routerLink]="['/customers/edit', customer.id]">Edit</button>
+    <button mat-raised-button [routerLink]="['/customers/delete', customer.id]">Delete</button>
+</mat-card-actions>
 }

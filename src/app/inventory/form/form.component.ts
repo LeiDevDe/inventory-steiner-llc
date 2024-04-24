@@ -26,7 +26,8 @@ export class InventoryFormComponent {
   onBack() {
     this.back.emit();
   }
-  @Output() save = new EventEmitter<Inventory>();
+  @Output()
+  save = new EventEmitter<Inventory>();
 
   inventoryForm = this.formBuilder.group({
     id: [null],
@@ -39,10 +40,9 @@ export class InventoryFormComponent {
   });
 
   onSubmit() {
-    console.log('Submit', this.inventoryForm.value);
     this.save.emit(this.inventoryForm.value as Inventory);
+    console.log('Submit', this.inventoryForm.value);
   }
-
   @Input()
   set inventory(inventory: Inventory) {
     this.inventoryForm.setValue(inventory);

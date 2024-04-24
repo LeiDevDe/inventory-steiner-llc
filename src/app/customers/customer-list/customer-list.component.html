@@ -1,7 +1,8 @@
 <p>customer-list works!</p>
 <button mat-raised-button [routerLink]="['/customers/new']">New Customer</button>
-@if(customerObservable |async){
-<div>Found {{customers.length}} Customers</div> }
+<!-- @if(customerObservable |async){
+<div>Found {{customers.length}} Customers</div>
+} -->
 <div class="mat-elevation-z8">
     <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
@@ -13,7 +14,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let row">{{row.firstname}}</td>
+            <td mat-cell *matCellDef="let row">{{row.firstName+' '+row.lastName}}</td>
         </ng-container>
 
         <!-- Phone Column -->
@@ -21,6 +22,25 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
       <td mat-cell *matCellDef="let row">{{1234}}</td>
     </ng-container> -->
+        <!-- <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button (click)="onEditInventoryClick(row)">
+            Edit
+          </button>
+          <button mat-icon-button color="warn" (click)="onDeleteInventoryClick(row)">
+            Delete</button>
+        </td>
+      </ng-container> -->
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-button [routerLink]="['/customers/edit', row.id]">Edit</button>
+                <button [routerLink]="['/customers/show', row.id]">Show</button>
+                <button [routerLink]="['/customers/delete', row.id]">Delete</button>
+            </td>
+        </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -29,4 +49,5 @@
     <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
         [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
     </mat-paginator>
+
 </div>

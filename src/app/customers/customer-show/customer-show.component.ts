@@ -1,15 +1,19 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CustomerService } from '../customer.service';
 import { Customer } from '../customer.dto';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { MatCard } from '@angular/material/card';
+import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
+import { MatRadioButton } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-customer-show',
   standalone: true,
-  imports: [AsyncPipe, MatCard],
+  imports: [AsyncPipe, MatCard, MatCardActions, RouterLink, MatCardContent,
+    MatButtonModule
+  ],
   templateUrl: './customer-show.component.html',
   styleUrl: './customer-show.component.css'
 })

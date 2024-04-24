@@ -33,14 +33,16 @@ export class CustomerListComponent implements AfterViewInit {
 
   customerService = inject(CustomerService)
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['id', 'name', 'actions'];
 
   ngAfterViewInit(): void {
     this.loadCustomers()
   }
 
   async loadCustomers(): Promise<void> {
-    const customers = await lastValueFrom(this.customerService.getAll());
+    this.customerObservable = this.customerService.getAll();
+    const customers = await lastValueFrom(this.customerObservable);
+
     this.dataSource = new MatTableDataSource(customers);
     this.table.dataSource = this.dataSource;
     this.dataSource.sort = this.sort;

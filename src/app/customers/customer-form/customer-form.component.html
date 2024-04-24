@@ -1,1 +1,17 @@
 <p>customer-form works!</p>
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+        <mat-form-field class="item">
+            <input matInput placeholder="First Name" formControllName="firstName" />
+            @if(customerForm.controls['firstName'].hasError('required')){
+            <mat-error>First Name is required</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="item">
+            <input matInput placeholder="Last Name" formControllName="lastName" />
+            @if(customerForm.controls['lastName'].hasError('required')){
+            <mat-error>First Name is required</mat-error>
+            }
+        </mat-form-field>
+    </div>
+</form>
