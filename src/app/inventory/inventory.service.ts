@@ -11,6 +11,12 @@ export class InventoryService {
 
   constructor(private http: HttpClient) { }
 
+  public delete(id: number) {
+    console.log("to delete inventory item  id " + id)
+    return this.http.delete(environment.api + 'inventory/' + id)
+  }
+
+
   public getAll(): Observable<Inventory[]> {
     return this.http.get<Inventory[]>(environment.api + "inventory")
   }

@@ -30,6 +30,10 @@ body {
     width: 100%;
 }
 
+.item-15 {
+    flex: 0 0 15%;
+}
+
 .item-20 {
     flex: 0 0 20%;
 }

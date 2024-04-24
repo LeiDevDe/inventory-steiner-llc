@@ -9,6 +9,7 @@ import { Inventory } from './inventory.dto';
 import { MatCardModule } from '@angular/material/card';
 import { InventoryFormComponent } from './form/form.component';
 import { RouterOutlet } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-inventory',
@@ -21,7 +22,7 @@ import { RouterOutlet } from '@angular/router';
   `,
   standalone: true,
   imports: [MatTableModule, MatPaginatorModule, MatSortModule,
-    MatCardModule, InventoryFormComponent,
+    MatCardModule, InventoryFormComponent, MatIconModule,
     RouterOutlet
   ]
 })
@@ -33,15 +34,14 @@ export class InventoryComponent implements AfterViewInit {
 
   showForm: Boolean = false;
   inventory!: Inventory;
-
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name', 'description', 'quantity', 'editedDate', 'storagePlace',
+  displayedColumns = ['id', 'name', 'description', 'quantity', 'storagePlace',
     'actions'
   ];
 
+
+
   constructor(private inventoryService: InventoryService) { }
-
-
 
   ngAfterViewInit(): void {
     this.loadInventories();
@@ -53,23 +53,43 @@ export class InventoryComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
-  onClick() {
+  onNewInventoryClick() {
+    this.inventory = {
+      id: null,
+      name: "",
+      description: "",
+      // editedDate: new Date(),
+      // createdDate: new Date(),
+      quantity: null,
+      storagePlace: "",
+      comment: "",
+      unitPrice: null,
+    }
+
     this.showForm = true;
   }
   hideInventoryForm() {
     this.showForm = false;
     this.loadInventories();
   }
-  async onSave(inventory: Inventory) {
-    const save = lastValueFrom(this.inventoryService.save(inventory));
-    console.log("save new inventory item in the inventoryComponent", inventory);
-    this.hideInventoryForm();
-  }
-
   onEditInventoryClick(inventory: Inventory) {
     console.log("edit inventory item", inventory)
+    this.inventory = inventory
     this.showForm = true
   }
+  onDeleteInventoryClick(inventory: Inventory) {
+    if (confirm(`Delete "${inventory.name}" with quantity `)) {
+      const isDeleted = lastValueFrom(this.inventoryService.delete(inventory.id));
+      this.loadInventories();
+    }
+  }
 
+
+  onSave(inventory: Inventory) {
+    const save = lastValueFrom(this.inventoryService.save(inventory));
+    console.log("save new inventory item in the inventoryComponent", inventory);
+    console.log(save)
+    this.hideInventoryForm();
+  }
 
 }

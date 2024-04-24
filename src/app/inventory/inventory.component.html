@@ -1,15 +1,14 @@
 <div class="mat-elevation-z8">
   <mat-card>
     <mat-card-actions>
-      <button type="button" mat-button color="primary" (click)="onClick()">Add New Item</button>
+      <button type="button" mat-button color="primary" (click)="onNewInventoryClick()">Add New Item</button>
     </mat-card-actions>
-
     <mat-card-header>All Inventory</mat-card-header>
+    @if(showForm){
+    <!--Inventory Form-->
+    <inventory-form (back)="hideInventoryForm()" (save)="onSave($event)" [inventory]="inventory"></inventory-form>
+    }@else{
     <mat-card-content>
-      @if( showForm){
-      <!--Inventory Form-->
-      <inventory-form (back)="hideInventoryForm()" (save)="onSave($event)"></inventory-form>
-      }@else{
       <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
         <ng-container matColumnDef="id">
@@ -36,11 +35,6 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Storage Place</th>
           <td mat-cell *matCellDef="let row">{{row.storagePlace}}</td>
         </ng-container>
-        <!-- EditedDate Colum -->
-        <ng-container matColumnDef="editedDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Edited Date</th>
-          <td mat-cell *matCellDef="let row">{{row.editedDate}}</td>
-        </ng-container>
         <!-- Actions Colum -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
@@ -48,17 +42,18 @@
             <button mat-button (click)="onEditInventoryClick(row)">
               Edit
             </button>
+            <button mat-icon-button color="warn" (click)="onDeleteInventoryClick(row)">
+              Delete</button>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-      }
     </mat-card-content>
     <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
       [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
     </mat-paginator>
+    }
   </mat-card>
-
 </div>

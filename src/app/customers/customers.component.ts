@@ -1,8 +1,14 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { MatTableModule, MatTable } from '@angular/material/table';
+import { AfterViewInit, Component, inject, NgModule, ViewChild } from '@angular/core';
+import { MatTableModule, MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
-import { CustomersDataSource, Customer } from './customers-datasource';
+
+import { MatButtonModule } from '@angular/material/button';
+import { CustomerService } from './customer.service';
+import { lastValueFrom } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { MatCard } from '@angular/material/card';
+
 
 @Component({
   selector: 'app-customers',
@@ -10,24 +16,39 @@ import { CustomersDataSource, Customer } from './customers-datasource';
   styles: `
     .full-width-table {
       width: 100%;
-    }
-    
+    }    
   `,
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule]
+  imports: [MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    MatCard,
+    RouterModule
+  ]
 })
-export class CustomersComponent implements AfterViewInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<Customer>;
-  dataSource = new CustomersDataSource();
+export class CustomersComponent {
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatSort) sort!: MatSort;
+  // @ViewChild(MatTable) table!: MatTable<Customer>;
+  // dataSource = new MatTableDataSource<Customer>();
 
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  // customerService = inject(CustomerService)
+  // /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+  // displayedColumns = ['id', 'name'];
 
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    this.table.dataSource = this.dataSource;
-  }
+  // ngAfterViewInit(): void {
+  //   this.loadCustomers()
+  // }
+
+  // async loadCustomers(): Promise<void> {
+  //   const customers = await lastValueFrom(this.customerService.getAll());
+  //   this.dataSource = new MatTableDataSource(customers);
+  //   this.table.dataSource = this.dataSource;
+  //   this.dataSource.sort = this.sort;
+  //   this.dataSource.paginator = this.paginator;
+  // }
+  // onAddNewClick() {
+  //   // this.customerService.save(customer<Customer>)
+  // }
 }
